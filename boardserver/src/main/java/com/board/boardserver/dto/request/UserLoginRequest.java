@@ -1,4 +1,4 @@
-package com.board.boardserver.dto;
+package com.board.boardserver.dto.request;
 
 import lombok.Getter;
 import lombok.NonNull;

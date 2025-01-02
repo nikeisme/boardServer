@@ -2,7 +2,7 @@ package com.board.boardserver.controller;
 
 import com.board.boardserver.aop.LoginCheck;
 import com.board.boardserver.dto.UserDTO;
-import com.board.boardserver.dto.UserLoginRequest;
+import com.board.boardserver.dto.request.UserLoginRequest;
 import com.board.boardserver.dto.request.UserDeleteId;
 import com.board.boardserver.dto.request.UserUpdatePasswordRequest;
 import com.board.boardserver.dto.response.LoginResponse;
