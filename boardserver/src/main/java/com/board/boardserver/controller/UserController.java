@@ -111,7 +111,6 @@ public class UserController {
             userService.deleteId(id, userDeleteId.getPassword());
             responseEntity = new ResponseEntity<LoginResponse>(loginResponse, HttpStatus.OK);
         } catch (RuntimeException e) {
-            System.out.println("e:::::::" + e);
             log.info("deleteID 실패");
             responseEntity = new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
         }
