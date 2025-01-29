@@ -13,11 +13,11 @@ public class PostDTO {
     private int id;
     private String name;
     private int isAdmin;
-    private String content;
+    private String contents;
     private Date createTime;
     private int views;
     private int categoryId;
-    private int userId;
+    private String userId;
     private int fileId;
     private Date updateTime;
 }

@@ -10,6 +10,8 @@ import java.util.Date;
 @Setter
 @ToString
 public class UserDTO {
+
+
     public enum Status {
         DEFAULT, ADMIN, DELETED
     }
@@ -36,10 +38,10 @@ public class UserDTO {
         this.updateTime = updateTime;
         this.isAdmin = isAdmin;
     }
-
     public static boolean hasNullDataBeforeSignup(UserDTO userDTO) {
 
         return userDTO.getUserId() == null || userDTO.getPassword() == null
-                || userDTO.getNickName() == null;
+                || userDTO.getNickName() == null
+;
     }
 }

@@ -10,9 +10,9 @@ public interface PostMapper {
 
     public int register (PostDTO postDTO);
 
-    public List<PostDTO> selectMyPosts(int accountId);
+    public List<PostDTO> selectMyPosts(String userId);
 
     public void updatePosts(PostDTO postDTO);
-    public void deletePosts(int postId);
+    public void deletePosts(int id);
 
 }

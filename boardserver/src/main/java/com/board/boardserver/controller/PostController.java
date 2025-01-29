@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class PostController {
     @LoginCheck(type = LoginCheck.UserType.USER)
     public ResponseEntity<CommonResponse<List<PostDTO>>> myPostInfo(String accountId){
         UserDTO memberInfo = userService.getUserInfo(accountId);
-        List<PostDTO> postDTOList = postService.getMyPosts(memberInfo.getId());
+        List<PostDTO> postDTOList = postService.getMyPosts(memberInfo.getUserId());
         CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","myPostInfo",postDTOList);
         return ResponseEntity.ok(commonResponse);
 
@@ -58,10 +59,10 @@ public class PostController {
         PostDTO postDTO = PostDTO.builder()
                 .id(postId)
                 .name(postRequest.getName())
-                .content(postRequest.getContents())
+                .contents(postRequest.getContents())
                 .views(postRequest.getViews())
                 .categoryId(postRequest.getCategoryId())
-                .userId(postRequest.getUserId())
+                .userId(memberInfo.getUserId())
                 .fileId(postRequest.getFileId())
                 .updateTime(new Date())
                 .build();
@@ -70,14 +71,14 @@ public class PostController {
         return ResponseEntity.ok(commonResponse);
     }
 
-    @DeleteMapping("{postId}")
+    @DeleteMapping("{id}")
     @LoginCheck(type = LoginCheck.UserType.USER)
-    public ResponseEntity<CommonResponse<PostResponse>> deletePosts (String accountId,
-                                                                     @PathVariable(name = "postId") int postId,
-                                                                     @RequestBody PostDeleteRequest postDeleteRequest) {
-        UserDTO memberInfo = userService.getUserInfo(accountId);
-        postService.deletePosts(memberInfo.getId(),postId);
-        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "deletePosts",postDeleteRequest);
+    public ResponseEntity<CommonResponse<PostResponse>> deletePosts (String userId,
+                                                                     @PathVariable(name = "id") int id
+                                                                     ) {
+        UserDTO memberInfo = userService.getUserInfo(userId);
+        postService.deletePosts(memberInfo.getUserId(),id);
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "deletePosts","게시글삭제완료");
         return ResponseEntity.ok(commonResponse);
     }
 
@@ -97,15 +98,9 @@ public class PostController {
         private String contents;
         private int views;
         private int categoryId;
-        private int userId;
+        private String userId;
         private int fileId;
         private Date updateTime;
     }
 
-    @Getter
-    @Setter
-    private static class PostDeleteRequest {
-        private int id;
-        private int accountId;
-    }
 }

@@ -22,8 +22,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void register(String id, PostDTO postDTO) {
+
         UserDTO memberInfo = userProfileMapper.getUserProfile(id); // 정상계정여부조회
-        postDTO.setUserId(memberInfo.getId());
+        postDTO.setUserId(memberInfo.getUserId());
+
+        System.out.println("****memberInfo***");
+        System.out.println(memberInfo);
+
         postDTO.setCreateTime(new Date());
 
         if(memberInfo != null){
@@ -35,15 +40,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getMyPosts(int accountId) {
+    public List<PostDTO> getMyPosts(String accountId) {
         List<PostDTO> postDTOList = postMapper.selectMyPosts(accountId);
         return postDTOList;
     }
 
     @Override
     public void updatePosts(PostDTO postDTO) {
+        System.out.println("*****getId*****");
+        System.out.println(postDTO.getId());
+        System.out.println(postDTO.getUserId());
         if (postDTO !=null && postDTO.getId() !=0) {
             postMapper.updatePosts(postDTO);
+
+            System.out.println("*****postDTO*****");
+            System.out.println(postDTO);
+
         } else {
             log.error("update ERROR {}", postDTO);
             throw new RuntimeException("* ERROR * 게시글 수정 메서드를 다시 확인해주세요." + postDTO);
@@ -51,8 +63,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePosts(int userId, int postId) {
-        if (userId != 0 && postId !=0) {
+    public void deletePosts(String userId, int postId) {
+        if (userId != null && postId !=0) {
             postMapper.deletePosts(postId);
         } else {
             log.error("delete ERROR {}", postId);
