@@ -10,3 +10,6 @@
      추후, linux 환경에서 조회 예정)
   
     ![Image](https://github.com/user-attachments/assets/871f6744-7016-4161-839f-ed4494870363)
+    <br>
+    ![image](https://github.com/user-attachments/assets/d8817340-2988-4cf8-bbe7-fc446251d8f6)
+
