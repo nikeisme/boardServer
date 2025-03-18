@@ -9,5 +9,5 @@ public interface CommentMapper {
 
     public void updateComments(CommentDTO commentDTO);
 
-    public void deleteComments(int commentId);
+    public void deletePostComment(int commentId);
 }

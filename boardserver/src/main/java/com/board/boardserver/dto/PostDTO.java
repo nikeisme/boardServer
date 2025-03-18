@@ -19,7 +19,7 @@ public class PostDTO {
     private Date createTime;
     private int views;
     private int categoryId;
-    private String userId;
+    private int userId;
     private int fileId;
     private Date updateTime;
     private List<TagDTO> tagDTOList;

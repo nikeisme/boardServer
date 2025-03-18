@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PostSearchMapper {
     public List<PostDTO> selectPosts(PostSearchRequest postSearchRequest);
+    public List<PostDTO> getPostByTag(String tagName);
 }

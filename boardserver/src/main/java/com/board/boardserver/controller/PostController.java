@@ -65,7 +65,7 @@ public class PostController {
                 .contents(postRequest.getContents())
                 .views(postRequest.getViews())
                 .categoryId(postRequest.getCategoryId())
-                .userId(memberInfo.getUserId())
+                .userId(memberInfo.getId())
                 .fileId(postRequest.getFileId())
                 .updateTime(new Date())
                 .build();
@@ -86,30 +86,40 @@ public class PostController {
     }
 
     // -- comment
-    @PatchMapping("comments/{commentId}")
+
+    @PostMapping("comments")
     @ResponseStatus(HttpStatus.CREATED)
     @LoginCheck(type = LoginCheck.UserType.USER)
-    public ResponseEntity<CommonResponse<CommentDTO>>updatePostComment(String accountId,
-                                                                       @PathVariable(name = "commentId") int commentId,
-                                                                       @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<CommonResponse<CommentDTO>> registerPostComment(String accountId, @RequestBody CommentDTO commentDTO) {
+        postService.registerComment(commentDTO);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "registerPostComment", commentDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @PatchMapping("comments/{commentId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> updatePostComment(String accountId,
+                                                                        @PathVariable(name = "commentId") int commentId,
+                                                                        @RequestBody CommentDTO commentDTO) {
         UserDTO memberInfo = userService.getUserInfo(accountId);
-        if (memberInfo != null)
-        postService.updateComment(commentDTO);
-        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","updatePostComment",commentDTO);
+        if(memberInfo != null)
+            postService.updateComment(commentDTO);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "updatePostComment", commentDTO);
         return ResponseEntity.ok(commonResponse);
     }
 
     @DeleteMapping("comments/{commentId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CommonResponse<CommentDTO>>deletePostComment(String accountId,
-                                                                       @PathVariable(name = "commentId") int commentId,
-                                                                       @RequestBody CommentDTO commentDTO) {
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> deletePostComment(String accountId,
+                                                                        @PathVariable(name = "commentId") int commentId,
+                                                                        @RequestBody CommentDTO commentDTO) {
         UserDTO memberInfo = userService.getUserInfo(accountId);
-        if (memberInfo != null)
-            postService.deleteComment(memberInfo.getUserId(),commentId);
-        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","deletePostComment",commentDTO);
+        if(memberInfo != null)
+            postService.deletePostComment(memberInfo.getId(), commentId);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "deletePostComment", commentDTO);
         return ResponseEntity.ok(commonResponse);
     }
+
 
     // -- Tag
 

@@ -34,7 +34,7 @@ public class PostServiceImpl implements PostService {
     public void register(String id, PostDTO postDTO) {
 
         UserDTO memberInfo = userProfileMapper.getUserProfile(id); // 정상계정여부조회
-        postDTO.setUserId(memberInfo.getUserId());
+        postDTO.setUserId(memberInfo.getId());
 
         postDTO.setCreateTime(new Date());
 
@@ -103,14 +103,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deleteComment(String userId, int commentId) {
-        if (userId != null && commentId !=0){
-            commentMapper.deleteComments(commentId);
+    public void deletePostComment(int userId, int commentId) {
+        if (userId != 0 && commentId != 0) {
+            commentMapper.deletePostComment(commentId);
         } else {
-            log.error("deletePostComment error {}" + commentId);
-            throw new RuntimeException("deletePostComment");
+            log.error("deletePostComment ERROR! {}", commentId);
+            throw new RuntimeException("deletePostComment ERROR! 댓글 삭제 메서드를 확인해주세요\n" + "Params : " + commentId);
         }
     }
+
 
     @Override
     public void registerTag(TagDTO tagDTO) {

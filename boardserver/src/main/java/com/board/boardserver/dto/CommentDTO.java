@@ -9,9 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDTO {
+
     private int id;
     private int postId;
     private String contents;
-    private int subComments;
+    private int subCommentId;
 
 }
