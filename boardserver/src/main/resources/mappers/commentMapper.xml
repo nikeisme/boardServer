@@ -14,12 +14,12 @@
 
     <update id="updateComments" parameterType="com.board.boardserver.dto.CommentDTO">
         UPDATE comment
-        SET contents = #{contents}
-            subCommentId =  #{contents}
+        SET contents = #{contents},
+            subCommentId =  #{subCommentId}
         WHERE id = #{id}
     </update>
 
-    <delete id="deletePostComment">
+    <delete id="deletePostComment" >
         DELETE FROM comment
         WHERE id = #{commentId}
     </delete>

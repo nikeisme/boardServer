@@ -108,14 +108,18 @@ public class PostController {
         return ResponseEntity.ok(commonResponse);
     }
 
-    @DeleteMapping("comments/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @LoginCheck(type = LoginCheck.UserType.USER)
     public ResponseEntity<CommonResponse<CommentDTO>> deletePostComment(String accountId,
                                                                         @PathVariable(name = "commentId") int commentId,
                                                                         @RequestBody CommentDTO commentDTO) {
         UserDTO memberInfo = userService.getUserInfo(accountId);
         if(memberInfo != null)
-            postService.deletePostComment(memberInfo.getId(), commentId);
+            postService.deletePostComment(memberInfo.getUserId(), commentId);
+        System.out.println("*********************************");
+        System.out.println("DeleteController 실행");
+        System.out.println("commentId" + commentId);
+        System.out.println("*********************************");
         CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "deletePostComment", commentDTO);
         return ResponseEntity.ok(commonResponse);
     }
@@ -140,7 +144,8 @@ public class PostController {
                                                                        @RequestBody TagDTO tagDTO) {
         UserDTO memberInfo = userService.getUserInfo(accountId);
         if (memberInfo != null)
-            postService.deletePostTag(memberInfo.getUserId(), tagId);
+           // postService.deletePostTag(memberInfo.getUserId(), tagId);
+            postService.updateTag(tagDTO);
         CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","deletePostTag",tagDTO);
         return ResponseEntity.ok(commonResponse);
     }

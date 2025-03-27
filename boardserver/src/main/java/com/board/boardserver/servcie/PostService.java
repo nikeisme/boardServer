@@ -19,7 +19,7 @@ public interface PostService {
 
     void updateComment (CommentDTO commentDTO);
 
-    void deletePostComment(int userId, int commentId);
+    void deletePostComment(String userId, int commentId);
 
     // -- Tag
 

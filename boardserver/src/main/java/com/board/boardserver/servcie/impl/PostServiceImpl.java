@@ -30,26 +30,27 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private TagMapper tagMapper;
 
+
     @Override
     public void register(String id, PostDTO postDTO) {
-
-        UserDTO memberInfo = userProfileMapper.getUserProfile(id); // 정상계정여부조회
+        UserDTO memberInfo = userProfileMapper.getUserProfile(id);
         postDTO.setUserId(memberInfo.getId());
-
         postDTO.setCreateTime(new Date());
 
-        if(memberInfo != null){
+        if (memberInfo != null) {
             postMapper.register(postDTO);
             Integer postId = postDTO.getId();
-            for (int i=0; i<postDTO.getTagDTOList().size(); i++){
+            // 생성된 post 객체 에서 태그 리스트 생성
+            for(int i=0; i<postDTO.getTagDTOList().size(); i++){
                 TagDTO tagDTO = postDTO.getTagDTOList().get(i);
                 tagMapper.register(tagDTO);
                 Integer tagId = tagDTO.getId();
-                tagMapper.createPostTag(tagId,postId);
+                // M:N 관계 테이블 생성
+                tagMapper.createPostTag(tagId, postId);
             }
         } else {
-            log.error("register ERROR {}", postDTO);
-            throw new RuntimeException(" * ERROR * 게시글 등록 메서드를 다시 확인해주세요." + postDTO);
+            log.error("register ERROR! {}", postDTO);
+            throw new RuntimeException("register ERROR! 상품 등록 메서드를 확인해주세요\n" + "Params : " + postDTO);
         }
     }
 
@@ -103,8 +104,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePostComment(int userId, int commentId) {
-        if (userId != 0 && commentId != 0) {
+    public void deletePostComment(String userId, int commentId) {
+
+        System.out.println("***postService11 실행******");
+
+        System.out.println(commentId );
+
+
+        if (userId != null && commentId != 0) {
+
             commentMapper.deletePostComment(commentId);
         } else {
             log.error("deletePostComment ERROR! {}", commentId);

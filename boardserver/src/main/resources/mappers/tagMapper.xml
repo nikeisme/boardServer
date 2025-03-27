@@ -8,15 +8,15 @@
         INSERT INTO tag
         (name,
          url)
-        VALUES(#{name},#{url})
+        VALUES(#{name}, #{url})
         <selectKey keyProperty="id" resultType="Integer">
             SELECT LAST_INSERT_ID()
-        </selectKey>>
+        </selectKey>
     </insert>
 
-    <update id="updateTags" parameterType="com.board.boardserver.dto.TagDTO">
+    <update id="updateTag" parameterType="com.board.boardserver.dto.TagDTO">
         UPDATE tag
-        SET name = #{name}
+        SET name = #{name},
             url =  #{url}
         WHERE id = #{id}
     </update>
